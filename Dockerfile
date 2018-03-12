@@ -6,9 +6,10 @@ WORKDIR /usr/src
 
 ENV KERNEL_VERSION 3.4.39
 
-RUN curl -sLO https://cdn.kernel.org/pub/linux/kernel/v3.x/linux-${KERNEL_VERSION}.tar.gz && \
-    tar xvfz linux-${KERNEL_VERSION}.tar.gz && \
-    rm linux-${KERNEL_VERSION}.tar.gz
+RUN curl -sLO https://github.com/allwinner-zh/linux-3.4-sunxi/archive/master.tar.gz && \
+    tar xvfz master.tar.gz && \
+    mv linux-3.4-sunxi-master /usr/src/linux-${KERNEL_VERSION} && \
+    rm master.tar.gz
 
 WORKDIR /usr/src/linux-${KERNEL_VERSION}
 
