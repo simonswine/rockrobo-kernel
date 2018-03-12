@@ -2603,3 +2603,7 @@ CONFIG_AVERAGE=y
 # Mali
 #
 CONFIG_MALI_LINUX_ENV=y
+
+
+# build overlayfs
+CONFIG_OVERLAYFS_FS=m
