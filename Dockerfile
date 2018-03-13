@@ -21,6 +21,8 @@ ENV CROSS_COMPILE arm-linux-gnueabihf-
 RUN make oldconfig && make prepare
 RUN make -j 4 modules
 
+# add symbol versions to make module load without error
+ADD Module.symvers .
 
 # realtek driver wifi usb
 RUN mkdir -p /usr/src/rtl8812au && \
