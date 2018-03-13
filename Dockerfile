@@ -24,6 +24,9 @@ RUN make -j 4 modules
 # add symbol versions to make module load without error
 ADD Module.symvers .
 
+RUN make SUBDIRS=drivers/usb/storage modules
+RUN make SUBDIRS=drivers/usb/serial modules
+
 # realtek driver wifi usb
 RUN mkdir -p /usr/src/rtl8812au && \
     curl -LO https://github.com/diederikdehaas/rtl8812AU/archive/driver-4.3.20.tar.gz && \
