@@ -1,4 +1,4 @@
-# Trying to compile modules for rockrobo
+# Compiling modules for [rockrobo](https://github.com/dgiese/dustcloud/tree/master/devices/xiaomi.vacuum.gen1)
 
 ```
 # Build kernel within docker image
