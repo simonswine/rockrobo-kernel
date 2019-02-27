@@ -11,6 +11,9 @@ RUN mkdir -p /usr/src/linux-${KERNEL_VERSION} && \
     tar xfz master.tar.gz --strip-components 1 -C linux-${KERNEL_VERSION} && \
     rm master.tar.gz
 
+COPY uvc_driver.c /usr/src/linux-${KERNEL_VERSION}/drivers/media/video/uvc/uvc_driver.c
+#RUN find /usr/src/linux-${KERNEL_VERSION}/drivers/media/video -name '*.c' -exec sed -i -e 's/EXPORT_SYMBOL_GPL/EXPORT_SYMBOL/g' {} \;
+
 WORKDIR /usr/src/linux-${KERNEL_VERSION}
 
 ADD dot-config .config
@@ -24,7 +27,8 @@ RUN make -j 4 modules
 # add symbol versions to make module load without error
 ADD Module.symvers .
 
-RUN make SUBDIRS=drivers/usb/storage modules
-RUN make SUBDIRS=drivers/usb/serial modules
-RUN make SUBDIRS=drivers/media/video modules
-RUN make SUBDIRS=drivers/media/video/uvc modules
+#RUN make SUBDIRS=drivers/usb/storage modules
+#RUN make SUBDIRS=drivers/usb/serial modules
+
+RUN make SUBDIRS=drivers/media/video/ modules
+# make SUBDIRS=drivers/media/video/uvc modules KBUILD_EXTMOD=drivers/media/video/
