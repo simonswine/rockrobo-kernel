@@ -1719,24 +1719,15 @@ static int uvc_register_video(struct uvc_device *dev,
 	vdev->v4l2_dev = &dev->vdev;
 	vdev->fops = &uvc_fops;
 	vdev->release = uvc_release;
-	uvc_printk(KERN_ERR, "UVC Release (%d).\n",
-    			   vdev->release);
 	strlcpy(vdev->name, dev->name, sizeof vdev->name);
-	//vdev->release = 1234;
-		uvc_printk(KERN_ERR, "UVC Release 2(%d).\n",
-        			   vdev->release);
 
 	/* Set the driver data before calling video_register_device, otherwise
 	 * uvc_v4l2_open might race us.
 	 */
 	stream->vdev = vdev;
 	video_set_drvdata(vdev, stream);
-	uvc_printk(KERN_ERR, "UVC Release 3 (%d).\n",
-    			   vdev->release);
-	ret = video_register_device(vdev, VFL_TYPE_GRABBER, -1);
-		uvc_printk(KERN_ERR, "UVC Release 4 (%d).\n",
-        			   vdev->release);
 
+	ret = video_register_device(vdev, VFL_TYPE_GRABBER, -1);
 	if (ret < 0) {
 		uvc_printk(KERN_ERR, "Failed to register video device (%d).\n",
 			   ret);
@@ -1839,9 +1830,9 @@ static int uvc_probe(struct usb_interface *intf,
 	dev->quirks = (uvc_quirks_param == -1)
 		    ? id->driver_info : uvc_quirks_param;
 
-    //dev->name = "<unnamed>";
-    //udev->product = NULL;
-
+	if (udev->product != NULL)
+		strlcpy(dev->name, udev->product, sizeof dev->name);
+	else
 		snprintf(dev->name, sizeof dev->name,
 			"UVC Camera (%04x:%04x)",
 			le16_to_cpu(udev->descriptor.idVendor),
