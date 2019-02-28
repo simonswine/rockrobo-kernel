@@ -12,6 +12,7 @@ RUN mkdir -p /usr/src/linux-${KERNEL_VERSION} && \
     rm master.tar.gz
 
 COPY uvc_driver.c /usr/src/linux-${KERNEL_VERSION}/drivers/media/video/uvc/uvc_driver.c
+COPY v4l2-dev.h /usr/src/linux-${KERNEL_VERSION}/include/media/v4l2-dev.h
 #RUN find /usr/src/linux-${KERNEL_VERSION}/drivers/media/video -name '*.c' -exec sed -i -e 's/EXPORT_SYMBOL_GPL/EXPORT_SYMBOL/g' {} \;
 
 WORKDIR /usr/src/linux-${KERNEL_VERSION}
