@@ -30,5 +30,5 @@ ADD Module.symvers .
 #RUN make SUBDIRS=drivers/usb/storage modules
 #RUN make SUBDIRS=drivers/usb/serial modules
 
-RUN make SUBDIRS=drivers/media/video/ modules
-# make SUBDIRS=drivers/media/video/uvc modules KBUILD_EXTMOD=drivers/media/video/
+RUN make SUBDIRS=drivers/media
+# make SUBDIRS=drivers/media/video/uvc modules KBUILD_EXTMOD=drivers/media
