@@ -1830,9 +1830,11 @@ static int uvc_probe(struct usb_interface *intf,
 	dev->quirks = (uvc_quirks_param == -1)
 		    ? id->driver_info : uvc_quirks_param;
 
+/*
 	if (udev->product != NULL)
 		strlcpy(dev->name, udev->product, sizeof dev->name);
 	else
+	*/
 		snprintf(dev->name, sizeof dev->name,
 			"UVC Camera (%04x:%04x)",
 			le16_to_cpu(udev->descriptor.idVendor),
@@ -2431,9 +2433,10 @@ static int __init uvc_init(void)
 
 	printk(KERN_INFO DRIVER_DESC " (" DRIVER_VERSION ")\n");
 
-	vdev = kzalloc(sizeof *vdev, GFP_KERNEL);
-	vdev->release = 1;
-	__video_register_device(vdev, 1, 1, 1, 1);
+	//vdev = kzalloc(sizeof *vdev, GFP_KERNEL);
+	//memset(vdev,1,(sizeof *vdev)-10);
+	//vdev->release = 1;
+	//__video_register_device(vdev, 1, 1, 1, 1);
 	return 0;
 }
 
