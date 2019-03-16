@@ -2419,6 +2419,7 @@ struct uvc_driver uvc_driver = {
 static int __init uvc_init(void)
 {
 	int ret;
+	struct video_device *vdev;
 
 	uvc_debugfs_init();
 
@@ -2429,6 +2430,10 @@ static int __init uvc_init(void)
 	}
 
 	printk(KERN_INFO DRIVER_DESC " (" DRIVER_VERSION ")\n");
+
+	vdev = kzalloc(sizeof *vdev, GFP_KERNEL);
+	vdev->release = 1;
+	__video_register_device(vdev, 1, 1, 1, 1);
 	return 0;
 }
 
