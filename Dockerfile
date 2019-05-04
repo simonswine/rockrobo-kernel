@@ -11,6 +11,10 @@ RUN mkdir -p /usr/src/linux-${KERNEL_VERSION} && \
     tar xfz master.tar.gz --strip-components 1 -C linux-${KERNEL_VERSION} && \
     rm master.tar.gz
 
+COPY uvc_driver.c /usr/src/linux-${KERNEL_VERSION}/drivers/media/video/uvc/uvc_driver.c
+COPY v4l2-dev.h /usr/src/linux-${KERNEL_VERSION}/include/media/v4l2-dev.h
+#RUN find /usr/src/linux-${KERNEL_VERSION}/drivers/media/video -name '*.c' -exec sed -i -e 's/EXPORT_SYMBOL_GPL/EXPORT_SYMBOL/g' {} \;
+
 WORKDIR /usr/src/linux-${KERNEL_VERSION}
 
 ADD dot-config .config
@@ -24,13 +28,8 @@ RUN make -j 4 modules
 # add symbol versions to make module load without error
 ADD Module.symvers .
 
-RUN make SUBDIRS=drivers/usb/storage modules
-RUN make SUBDIRS=drivers/usb/serial modules
+#RUN make SUBDIRS=drivers/usb/storage modules
+#RUN make SUBDIRS=drivers/usb/serial modules
 
-# realtek driver wifi usb
-RUN mkdir -p /usr/src/rtl8812au && \
-    curl -LO https://github.com/diederikdehaas/rtl8812AU/archive/driver-4.3.20.tar.gz && \
-    tar xfz driver-4.3.20.tar.gz --strip-components 1 -C /usr/src/rtl8812au && \
-    rm driver-4.3.20.tar.gz
-
-RUN cd /usr/src/rtl8812au && make KSRC=/usr/src/linux-${KERNEL_VERSION}
+RUN make SUBDIRS=drivers/media
+# make SUBDIRS=drivers/media/video/uvc modules KBUILD_EXTMOD=drivers/media
